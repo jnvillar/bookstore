@@ -1,18 +1,20 @@
 package config
 
-type Backend = int
+type BooksBackend = int
 
 const (
-	MemoryBackend Backend = iota
-	PostgresBackend
+	BooksMemoryBackend BooksBackend = iota
+	BooksPostgresBackend
 )
 
 type BooksConfig struct {
-	Backend Backend
+	Backend  BooksBackend
+	PageSize int
 }
 
 func devBooksConfig() *BooksConfig {
 	return &BooksConfig{
-		Backend: MemoryBackend,
+		Backend:  BooksMemoryBackend,
+		PageSize: 5,
 	}
 }
