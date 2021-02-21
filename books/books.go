@@ -7,13 +7,14 @@ import (
 )
 
 type Backend interface {
+	Create(book *Book) (*Book, error)
 	List(page int) ([]*Book, error)
 }
 
 type Factory struct {
-	Backend
-	log  *log.Factory
-	time *time.Factory
+	backend Backend
+	log     *log.Factory
+	time    *time.Factory
 }
 
 var factory = map[config.BooksBackend]func(backend *config.BooksConfig) Backend{
@@ -22,8 +23,16 @@ var factory = map[config.BooksBackend]func(backend *config.BooksConfig) Backend{
 
 func NewBookFactory(conf *config.BooksConfig, log *log.Factory, time *time.Factory) *Factory {
 	return &Factory{
-		Backend: factory[conf.Backend](conf),
+		backend: factory[conf.Backend](conf),
 		log:     log,
 		time:    time,
 	}
+}
+
+func (f *Factory) Create(book *Book) (*Book, error) {
+	return f.backend.Create(book)
+}
+
+func (f *Factory) List(page int) ([]*Book, error) {
+	return f.backend.List(page)
 }

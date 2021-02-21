@@ -2,7 +2,6 @@ package books
 
 import (
 	"bookstore/config"
-	"bookstore/item"
 )
 
 type memoryBackend struct {
@@ -10,19 +9,16 @@ type memoryBackend struct {
 	config *config.BooksConfig
 }
 
+func (m *memoryBackend) Create(book *Book) (*Book, error) {
+	m.books = append(m.books, book)
+	return book, nil
+}
+
 func newMemoryBackend(config *config.BooksConfig) Backend {
 	return &memoryBackend{
 		config: config,
 		books: []*Book{
-			{
-				Item: &item.Item{
-					ID:         "0",
-					Price:      0,
-					Name:       "",
-					PictureURL: "",
-					Stock:      0,
-				},
-			},
+			newBook("juanito"),
 		},
 	}
 }
