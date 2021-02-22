@@ -1,9 +1,9 @@
 package books
 
 import (
-	"bookstore/item"
+	"time"
 
-	"github.com/google/uuid"
+	"bookstore/item"
 )
 
 type Book struct {
@@ -21,7 +21,9 @@ func (b *Book) GetAuthor() string {
 func newBook(author string) *Book {
 	return &Book{
 		Item: &item.Item{
-			ID: uuid.New().String(),
+			ID: "c9db3355-a317-4bae-bc1e-7bc912a98463",
+			CreatedAt: time.Now(),
+			Name: "testName",
 		},
 		Author: author,
 	}

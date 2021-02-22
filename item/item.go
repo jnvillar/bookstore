@@ -1,11 +1,15 @@
 package item
 
+import "time"
+
 type Item struct {
-	ID         string `json:"id"`
-	Price      int64  `json:"price"`
-	Name       string `json:"name"`
-	PictureURL string `json:"picture_url"`
-	Stock      int64  `json:"stock"`
+	ID         string     `json:"id"`
+	Price      int64      `json:"price"`
+	Name       string     `json:"name"`
+	PictureURL string     `json:"pictureUrl"`
+	Stock      int64      `json:"stock"`
+	CreatedAt  time.Time  `json:"createdAt"`
+	UpdatedAt  *time.Time `json:"updatedAt"`
 }
 
 func (i *Item) GetID() string {

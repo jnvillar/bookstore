@@ -13,7 +13,10 @@ func mustProvidePositiveIntErrorMessage(field string) string {
 }
 
 var (
-	MustProvidePageField  = mustProvideFieldErrorMessage("Page")
-	MustProvideNameField  = mustProvideFieldErrorMessage("Name")
-	MustProvidePriceField = mustProvidePositiveIntErrorMessage("Price")
+	MustProvideIDField       = mustProvideFieldErrorMessage("id")
+	MustProvidePageField     = mustProvideFieldErrorMessage("page")
+	MustProvideNameField     = mustProvideFieldErrorMessage("name")
+	MustProvideUserNameField = mustProvideFieldErrorMessage("userName")
+	MustProvidePasswordField = mustProvideFieldErrorMessage("password")
+	MustProvidePriceField    = mustProvidePositiveIntErrorMessage("price")
 )

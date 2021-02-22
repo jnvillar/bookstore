@@ -9,13 +9,19 @@ type memoryBackend struct {
 }
 
 func (m *memoryBackend) Create(user *User) (*User, error) {
-	m.users = append(m.users, user)
+	u := &User{
+		ID:       user.ID,
+		UserName: user.UserName,
+		Password: user.Password,
+		Role:     user.Role,
+	}
+	m.users = append(m.users, u)
 	return user, nil
 }
 
-func (m *memoryBackend) Get(name, password string) (*User, error) {
+func (m *memoryBackend) Get(userName string) (*User, error) {
 	for _, user := range m.users {
-		if user.Name == name && user.Password == password {
+		if user.UserName == userName {
 			return user, nil
 		}
 	}
@@ -25,8 +31,6 @@ func (m *memoryBackend) Get(name, password string) (*User, error) {
 func newMemoryBackend() Backend {
 
 	return &memoryBackend{
-		users: []*User{
-			{Name: "admin", Password: "admin", Role: UserRoleAdmin},
-		},
+		users: []*User{},
 	}
 }

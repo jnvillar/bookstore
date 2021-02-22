@@ -26,11 +26,11 @@ func (s *stdOutLogger) Info(log string) {
 }
 
 func (s *stdOutLogger) log(level Loglevel, log string) {
-	fmt.Fprintf(os.Stdout, "[%s][%s] %s", logLevelToString(level), s.time.Now().String(), log)
+	fmt.Fprintf(os.Stdout, "\n[%s][%s] %s", logLevelToString(level), s.time.Now().String(), log)
 }
 
 func (s *stdOutLogger) logError(level Loglevel, log string, err error) {
-	fmt.Fprintf(os.Stdout, "[%s][%s] %s error: %s", logLevelToString(level), s.time.Now().String(), log, err)
+	fmt.Fprintf(os.Stdout, "\n[%s][%s] %s error: %s", logLevelToString(level), s.time.Now().String(), log, err)
 }
 
 func newStdoutLogger(config *config.LogConfig, time *time.Factory) Backend {

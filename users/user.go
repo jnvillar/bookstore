@@ -1,10 +1,12 @@
 package users
 
-import "bookstore/roles"
+import (
+	"bookstore/roles"
+)
 
 type User struct {
 	ID       string
-	Name     string
+	UserName string
 	Password string
 	Role     roles.Role
 }
