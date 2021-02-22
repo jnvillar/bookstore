@@ -79,6 +79,7 @@ func (f *Factory) Update(params map[string]interface{}) (*Book, error) {
 		book.PictureURL = pictureUrl.(string)
 	}
 
+
 	now := f.time.Now()
 	book.UpdatedAt = &now
 
