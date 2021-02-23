@@ -10,7 +10,7 @@ type AppConfig struct {
 }
 
 func getPort() int {
-	port := os.Getenv("port")
+	port := os.Getenv("PORT")
 	if port == "" {
 		return 8080
 	}
