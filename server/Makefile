@@ -1,7 +1,7 @@
 build:
 	go build -o bookstore main.go
 
-run:
+run: build
 	./bookstore
 
 lint:

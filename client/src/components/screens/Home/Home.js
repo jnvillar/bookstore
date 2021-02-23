@@ -1,12 +1,34 @@
-import React from 'react';
-import background from '../../../assets/books.jpg';
+import React, { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
 import './style.css'
+import { getBooks } from "../../../api/client";
+import { Book } from "./Layout/Book";
 
 export const Home = () => {
+
+  const [books, setBooks] = useState([])
+  const [filteredBooks, setFilteredBooks] = useState([])
+
+  useEffect(() => {
+    getBooks().then(r => {
+      setFilteredBooks(r)
+      setBooks(r)
+    })
+  }, []);
+
+  const onSearchInput = (input) => {
+    const search = input.target.value.toLowerCase()
+
+    if (search === '') {
+      setFilteredBooks(books)
+      return
+    }
+
+    setFilteredBooks(books.slice().filter(
+      b => b.name.toLowerCase().includes(search)
+    ))
+  }
 
   return (
     <div>
@@ -14,98 +36,15 @@ export const Home = () => {
       <Container>
         <Form className="search">
           <Form.Group controlId="formBasicEmail">
-            <Form.Control type="text" placeholder="Nombre del libro"/>
+            <Form.Control type="text" placeholder="Buscar" onChange={onSearchInput}/>
           </Form.Group>
         </Form>
-        <div className="cardsContainer">
-          <Card className="card">
-            <Card.Img variant="top" src="https://i.pinimg.com/originals/7f/21/20/7f212010fb43e5d7cd839c5372e08433.jpg"/>
-            <Card.Body>
-              <Card.Title>Harry Potter</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the Harry Potter and make up the bulk of
-                the card's content.
-              </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-          </Card>
-          <Card className="card">
-            <Card.Img variant="top" src="https://i.pinimg.com/originals/7f/21/20/7f212010fb43e5d7cd839c5372e08433.jpg"/>
-            <Card.Body>
-              <Card.Title>Harry Potter</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the Harry Potter and make up the bulk of
-                the card's content.
-              </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-          </Card>
-          <Card className="card">
-            <Card.Img variant="top" src="https://i.pinimg.com/originals/7f/21/20/7f212010fb43e5d7cd839c5372e08433.jpg"/>
-            <Card.Body>
-              <Card.Title>Harry Potter</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the Harry Potter and make up the bulk of
-                the card's content.
-              </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-          </Card>
-          <Card className="card">
-            <Card.Img variant="top" src="https://i.pinimg.com/originals/7f/21/20/7f212010fb43e5d7cd839c5372e08433.jpg"/>
-            <Card.Body>
-              <Card.Title>Harry Potter</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the Harry Potter and make up the bulk of
-                the card's content.
-              </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-          </Card>
-          <Card className="card">
-            <Card.Img variant="top" src="https://i.pinimg.com/originals/7f/21/20/7f212010fb43e5d7cd839c5372e08433.jpg"/>
-            <Card.Body>
-              <Card.Title>Harry Potter</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the Harry Potter and make up the bulk of
-                the card's content.
-              </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-          </Card>
-          <Card className="card">
-            <Card.Img variant="top" src="https://i.pinimg.com/originals/7f/21/20/7f212010fb43e5d7cd839c5372e08433.jpg"/>
-            <Card.Body>
-              <Card.Title>Harry Potter</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the Harry Potter and make up the bulk of
-                the card's content.
-              </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-          </Card>
-          <Card className="card">
-            <Card.Img variant="top" src="https://i.pinimg.com/originals/7f/21/20/7f212010fb43e5d7cd839c5372e08433.jpg"/>
-            <Card.Body>
-              <Card.Title>Harry Potter</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the Harry Potter and make up the bulk of
-                the card's content.
-              </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-          </Card>
-          <Card className="card">
-            <Card.Img variant="top" src="https://i.pinimg.com/originals/7f/21/20/7f212010fb43e5d7cd839c5372e08433.jpg"/>
-            <Card.Body>
-              <Card.Title>Harry Potter</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the Harry Potter and make up the bulk of
-                the card's content.
-              </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-          </Card>
+        <div className="books-container">
+          {
+            filteredBooks.map(book => (
+              <Book book={book}/>
+            ))
+          }
         </div>
       </Container>
     </div>

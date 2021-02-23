@@ -5,8 +5,11 @@ import (
 	"errors"
 	"io/ioutil"
 	"os"
+	"strings"
 
 	"bookstore/config"
+
+	"github.com/google/uuid"
 )
 
 type memoryBackend struct {
@@ -51,6 +54,11 @@ func newMemoryBackend(config *config.BooksConfig) Backend {
 	err = json.Unmarshal(byteValue, &books)
 	if err != nil {
 		panic(err)
+	}
+	for _, book := range books {
+		book.Name = strings.Title(strings.ToLower(book.Name))
+		book.ID = uuid.New().String()
+		book.Price = book.Price * 3
 	}
 	return &memoryBackend{
 		config: config,

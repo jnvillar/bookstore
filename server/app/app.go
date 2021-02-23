@@ -13,6 +13,7 @@ import (
 	"bookstore/users"
 	"bookstore/validator"
 
+	gorillaHandlers "github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
@@ -53,19 +54,26 @@ func (a *App) Init() {
 
 func (a *App) registerRoutes() {
 	router := mux.NewRouter()
-	router.Use(mux.CORSMethodMiddleware(router))
 
-	handlers := []handlers.Handler{
+	appHandlers := []handlers.Handler{
 		handlers.NewLoginHandler(a.log, a.users, a.validator, a.auth),
 		handlers.NewHealthHandler(a.log),
 		handlers.NewBooksHandler(a.log, a.validator, a.auth, a.books),
 	}
 
-	for _, handler := range handlers {
+	for _, handler := range appHandlers {
 		handler.RegisterRoutes(router)
 	}
 
-	if err := http.ListenAndServe(fmt.Sprintf(":%d", a.config.AppConfig.Port), router); err != nil {
+	if err := http.ListenAndServe(fmt.Sprintf(":%d", a.config.AppConfig.Port), gorillaHandlers.CORS(getCORSOptions()...)(router)); err != nil {
 		panic(err)
+	}
+}
+
+func getCORSOptions() []gorillaHandlers.CORSOption {
+	return []gorillaHandlers.CORSOption{
+		gorillaHandlers.AllowedOrigins([]string{"*"}),
+		gorillaHandlers.AllowedMethods([]string{"*"}),
+		gorillaHandlers.AllowedHeaders([]string{"*"}),
 	}
 }
