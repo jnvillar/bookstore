@@ -1,9 +1,6 @@
 package app
 
 import (
-	"fmt"
-	"net/http"
-
 	"bookstore/auth"
 	"bookstore/books"
 	"bookstore/config"
@@ -59,8 +56,8 @@ func (a *App) registerRoutes() {
 	router.Use(static.Serve("/", static.LocalFile("./web", true)))
 	router.Use(cors.New(cors.Config{
 		AllowAllOrigins: true,
-		AllowedMethods: []string{"*"},
-		AllowedHeaders: []string{"*"},
+		AllowedMethods:  []string{"*"},
+		AllowedHeaders:  []string{"*"},
 	}))
 
 	api := router.Group("/api")
@@ -75,9 +72,7 @@ func (a *App) registerRoutes() {
 		handler.RegisterRoutes(api)
 	}
 
-	if err := http.ListenAndServe(fmt.Sprintf(":%d", a.config.AppConfig.Port), router); err != nil {
+	if err := router.Run(); err != nil {
 		panic(err)
 	}
-
-	router.Use()
 }
