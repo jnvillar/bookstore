@@ -1,4 +1,6 @@
-[
+package assets
+
+var Books = []byte(`[
   {
     "pictureUrl": "http://www.distribuidoralabotica.com.ar/assets/imgLibros/2119L.jpg",
     "name": "DESARROLLOS TECNOLOGICOS-100 AÑOS DE TANQUES",
@@ -9695,4 +9697,4 @@
     "cat": "VARIOS",
     "price": 8000
   }
-]
+]`)
