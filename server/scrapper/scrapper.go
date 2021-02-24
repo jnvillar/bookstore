@@ -49,7 +49,9 @@ func scrapMeli(wg *sync.WaitGroup, fileName string) {
 			e.ForEach("li", func(_ int, pub *colly.HTMLElement) {
 				book := &books.Book{Item: &item.Item{}}
 				book.Name = pub.ChildAttr("a", "title")
-				price, _ := strconv.Atoi(pub.ChildText("span.price-tag-fraction"))
+				strprice := pub.ChildText("span.price-tag-fraction")
+				strprice = strings.ReplaceAll(strprice, ".", "")
+				price, _ := strconv.Atoi(strprice)
 				book.Price = int64(price) * 100
 				book.PictureURL = pub.ChildAttr("img", "data-src")
 				allBooks = append(allBooks, book)
