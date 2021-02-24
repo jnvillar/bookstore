@@ -4,6 +4,7 @@ import { getBooks } from "../../../api/client";
 import Form from 'react-bootstrap/Form';
 import debounce from 'lodash.debounce';
 import { Book } from "./Layout/Book";
+import axios from 'axios';
 import './style.css'
 
 export const Home = () => {
@@ -19,6 +20,10 @@ export const Home = () => {
   useEffect(() => {
     getBooks('').then(r => {
       setBooks(r)
+      let config = {headers: {
+        'Access-Control-Allow-Origin': '*'  //the token is a variable which holds the token
+      }}
+      axios.get(r[0]['pictureUrl'], config).then(r => console.log(r.data))
     })
   }, []);
 
