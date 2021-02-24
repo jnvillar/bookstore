@@ -80,7 +80,10 @@ func (b *BooksHandler) listBooks(w http.ResponseWriter, r *http.Request) {
 		page = 0
 	}
 
-	books, err := b.books.List(page)
+	search := r.URL.Query().Get("search")
+	bookSearch := &books.BookSearch{Name: search}
+
+	books, err := b.books.List(bookSearch, page)
 	if err != nil {
 		b.log.Error("error listing books", err)
 		w.WriteHeader(http.StatusInternalServerError)

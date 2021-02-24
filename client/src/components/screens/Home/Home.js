@@ -1,33 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import Form from 'react-bootstrap/Form'
+import React, { useEffect, useState, useCallback } from 'react';
 import Container from 'react-bootstrap/Container';
-import './style.css'
 import { getBooks } from "../../../api/client";
+import Form from 'react-bootstrap/Form';
+import debounce from 'lodash.debounce';
 import { Book } from "./Layout/Book";
+import './style.css'
 
 export const Home = () => {
 
   const [books, setBooks] = useState([])
-  const [filteredBooks, setFilteredBooks] = useState([])
+
+  const debounceGetBooks = useCallback(
+    debounce((search) => getBooks(search).then(r => {
+      setBooks(r)
+    }), 500), []
+  );
 
   useEffect(() => {
-    getBooks().then(r => {
-      setFilteredBooks(r)
+    getBooks('').then(r => {
       setBooks(r)
     })
   }, []);
 
   const onSearchInput = (input) => {
     const search = input.target.value.toLowerCase()
-
-    if (search === '') {
-      setFilteredBooks(books)
-      return
-    }
-
-    setFilteredBooks(books.slice().filter(
-      b => b.name.toLowerCase().includes(search)
-    ))
+    debounceGetBooks(search)
   }
 
   return (
@@ -41,7 +38,7 @@ export const Home = () => {
         </Form>
         <div className="books-container">
           {
-            filteredBooks.map(book => (
+            books.map(book => (
               <Book book={book}/>
             ))
           }

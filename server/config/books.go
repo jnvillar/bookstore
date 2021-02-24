@@ -15,6 +15,6 @@ type BooksConfig struct {
 func devBooksConfig() *BooksConfig {
 	return &BooksConfig{
 		Backend:  BooksMemoryBackend,
-		PageSize: 5,
+		PageSize: 100,
 	}
 }

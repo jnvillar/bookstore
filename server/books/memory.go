@@ -60,6 +60,18 @@ func newMemoryBackend(config *config.BooksConfig) Backend {
 	}
 }
 
-func (m *memoryBackend) List(page int) ([]*Book, error) {
-	return m.books, nil
+func (m *memoryBackend) List(bookSearch *BookSearch, page int) ([]*Book, error) {
+	res := make([]*Book, 0)
+	if bookSearch.GetName() == "" {
+		if m.config.PageSize < len(m.books) {
+			return m.books[0:m.config.PageSize], nil
+		}
+		return m.books, nil
+	}
+	for _, book := range m.books {
+		if strings.Contains(strings.ToLower(book.Name), strings.ToLower(bookSearch.Name)) {
+			res = append(res, book)
+		}
+	}
+	return res, nil
 }
