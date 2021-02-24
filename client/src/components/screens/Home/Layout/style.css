@@ -1,0 +1,55 @@
+.book-body {
+    padding: 10px !important;
+    font-size: 15px !important;
+    font-family: Arial !important;
+}
+
+.book-body-mobile {
+    padding: 10px !important;
+    font-size: 13px !important;
+    font-family: Arial !important;
+}
+
+.book-price-mobile {
+    padding: 0px !important;
+    font-size: 13px !important;
+    font-family: Arial !important;
+}
+
+.book-image-mobile {
+    height: 180px !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.book-image {
+    height: 250px !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.book-price {
+    padding: 0px !important;
+    font-size: 15px !important;
+    font-family: Arial !important;
+}
+
+.card-footer {
+    padding: 15px !important;
+}
+
+.book {
+    width: 15%;
+    display: flex;
+    margin-bottom: 2%;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.book-mobile {
+    width: 40%;
+    display: flex;
+    margin-bottom: 2%;
+    margin-left: 1%;
+    margin-right: 1%;
+}
