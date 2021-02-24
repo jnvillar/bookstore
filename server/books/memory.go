@@ -92,9 +92,14 @@ func (m *memoryBackend) List(bookSearch *BookSearch, page int) ([]*Book, error) 
 		return m.books, nil
 	}
 	for _, book := range m.books {
-		if strings.Contains(strings.ToLower(book.Name), strings.ToLower(bookSearch.Name)) {
+		if strings.Contains(strings.ToLower(book.Name), strings.ToLower(bookSearch.Name)) ||
+			book.HasAuthor(strings.ToLower(bookSearch.Name)) {
 			res = append(res, book)
 		}
+	}
+
+	if m.config.PageSize < len(res) {
+		return res[0:m.config.PageSize], nil
 	}
 	return res, nil
 }

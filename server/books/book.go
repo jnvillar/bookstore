@@ -1,6 +1,7 @@
 package books
 
 import (
+	"strings"
 	"time"
 
 	"bookstore/item"
@@ -18,6 +19,17 @@ func (b *Book) GetAuthor() []string {
 		return b.Author
 	}
 	return []string{}
+}
+
+func (b *Book) HasAuthor(search string) bool {
+	if b != nil {
+		return false
+	}
+	for _, author := range b.Author {
+		strings.Contains(strings.ToLower(author), strings.ToLower(search))
+		return true
+	}
+	return false
 }
 
 func newBook(author string) *Book {
