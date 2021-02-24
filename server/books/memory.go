@@ -61,9 +61,7 @@ func newMemoryBackend(config *config.BooksConfig) Backend {
 		panic(err)
 	}
 	for _, book := range books {
-		book.Name = strings.Title(strings.ToLower(book.Name))
 		book.ID = uuid.New().String()
-		book.Price = book.Price * 3
 	}
 	return &memoryBackend{
 		config: config,

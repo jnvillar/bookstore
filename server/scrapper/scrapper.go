@@ -46,9 +46,9 @@ func scrap() {
 					book.Category = []string{strings.Title(strings.ToLower(el.Text))}
 				case 7:
 					strPrice := strings.ReplaceAll(el.Text, "$", "")
-					strPrice = strings.ReplaceAll(el.Text, ".", "")
+					strPrice = strings.ReplaceAll(strPrice, ".", "")
 					price, _ := strconv.Atoi(strPrice)
-					book.Price = int64(price)
+					book.Price = int64(price) * 3
 				}
 			})
 			allBooks = append(allBooks, book)
