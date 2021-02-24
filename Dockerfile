@@ -15,6 +15,7 @@ RUN npm run build
 # alpine image
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
+COPY --from=builder app/server/scrapper/output.json .
 COPY --from=builder /main .
 COPY --from=node_builder /build ./web
 RUN chmod +x ./main

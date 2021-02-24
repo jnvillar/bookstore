@@ -44,10 +44,17 @@ func (m *memoryBackend) Create(book *Book) (*Book, error) {
 }
 
 func newMemoryBackend(config *config.BooksConfig) Backend {
-	content, err := ioutil.ReadFile("./server/scrapper/output.json")
+
+	// heroku
+	content, err := ioutil.ReadFile("./output.json")
 	if err != nil {
-		panic(err)
+		// local
+		content, err = ioutil.ReadFile("./server/scrapper/output.json")
+		if err != nil {
+			panic(err)
+		}
 	}
+
 	var books []*Book
 	err = json.Unmarshal(content, &books)
 	if err != nil {
