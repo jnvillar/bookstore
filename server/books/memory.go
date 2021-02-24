@@ -101,5 +101,6 @@ func (m *memoryBackend) List(bookSearch *BookSearch, page int) ([]*Book, error) 
 	if m.config.PageSize < len(res) {
 		return res[0:m.config.PageSize], nil
 	}
+
 	return res, nil
 }

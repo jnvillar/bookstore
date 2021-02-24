@@ -26,8 +26,7 @@ func (b *Book) HasAuthor(search string) bool {
 		return false
 	}
 	for _, author := range b.Author {
-		strings.Contains(strings.ToLower(author), strings.ToLower(search))
-		return true
+		return strings.Contains(strings.ToLower(author), strings.ToLower(search))
 	}
 	return false
 }
