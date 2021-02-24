@@ -3,9 +3,9 @@ package books
 import (
 	"encoding/json"
 	"errors"
+	"io/ioutil"
 	"strings"
 
-	"bookstore/assets"
 	"bookstore/config"
 
 	"github.com/google/uuid"
@@ -44,8 +44,12 @@ func (m *memoryBackend) Create(book *Book) (*Book, error) {
 }
 
 func newMemoryBackend(config *config.BooksConfig) Backend {
+	content, err := ioutil.ReadFile("./server/scrapper/output.json")
+	if err != nil {
+		panic(err)
+	}
 	var books []*Book
-	err := json.Unmarshal(assets.Books, &books)
+	err = json.Unmarshal(content, &books)
 	if err != nil {
 		panic(err)
 	}

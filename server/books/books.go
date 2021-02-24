@@ -59,10 +59,10 @@ func (f *Factory) Update(params map[string]interface{}) (*Book, error) {
 		book.Name = name.(string)
 	}
 
-	author, ok := params["author"]
-	if ok {
-		book.Author = author.(string)
-	}
+	//author, ok := params["author"]
+	//if ok {
+	//	book.Author = author.(string)
+	//}
 
 	price, ok := params["price"]
 	if ok {

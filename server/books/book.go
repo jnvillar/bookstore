@@ -8,23 +8,25 @@ import (
 
 type Book struct {
 	*item.Item
-	Author string `json:"author"`
+	Author    []string `json:"author"`
+	Category  []string `json:"category"`
+	Publisher []string `json:"publisher"`
 }
 
-func (b *Book) GetAuthor() string {
+func (b *Book) GetAuthor() []string {
 	if b != nil {
 		return b.Author
 	}
-	return ""
+	return []string{}
 }
 
 func newBook(author string) *Book {
 	return &Book{
 		Item: &item.Item{
-			ID: "c9db3355-a317-4bae-bc1e-7bc912a98463",
+			ID:        "c9db3355-a317-4bae-bc1e-7bc912a98463",
 			CreatedAt: time.Now(),
-			Name: "testName",
+			Name:      "testName",
 		},
-		Author: author,
+		Author: []string{author},
 	}
 }
