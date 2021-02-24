@@ -22,7 +22,7 @@ func (b *Book) GetAuthor() []string {
 }
 
 func (b *Book) HasAuthor(search string) bool {
-	if b != nil {
+	if b == nil {
 		return false
 	}
 	for _, author := range b.Author {
