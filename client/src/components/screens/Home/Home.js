@@ -13,7 +13,7 @@ export const Home = () => {
   const debounceGetBooks = useCallback(
     debounce((search) => getBooks(search).then(r => {
       setBooks(r)
-    }), 500), []
+    }), 300), []
   );
 
   useEffect(() => {
