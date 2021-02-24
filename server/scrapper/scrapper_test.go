@@ -1,7 +1,17 @@
 package scrapper
 
-import "testing"
+import (
+	"testing"
+)
 
-func Test(t *testing.T) {
-	scrap()
+func TestScrapAll(t *testing.T) {
+	scrapBooks()
+}
+
+func TestScrap(t *testing.T) {
+	scrapBotanica(nil, "distribuidoralabotica.json")
+}
+
+func TestMeli(t *testing.T) {
+	scrapMeli(nil, "meli.json")
 }

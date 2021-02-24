@@ -3,6 +3,7 @@ package books
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"strings"
 
@@ -43,13 +44,12 @@ func (m *memoryBackend) Create(book *Book) (*Book, error) {
 	return book, nil
 }
 
-func newMemoryBackend(config *config.BooksConfig) Backend {
-
+func loadContent(fileName string) []*Book {
 	// heroku
-	content, err := ioutil.ReadFile("./output.json")
+	content, err := ioutil.ReadFile(fmt.Sprintf("./%s.json", fileName))
 	if err != nil {
 		// local
-		content, err = ioutil.ReadFile("./server/scrapper/output.json")
+		content, err = ioutil.ReadFile(fmt.Sprintf("./server/scrapper/%s.json", fileName))
 		if err != nil {
 			panic(err)
 		}
@@ -57,11 +57,25 @@ func newMemoryBackend(config *config.BooksConfig) Backend {
 
 	var books []*Book
 	err = json.Unmarshal(content, &books)
-	if err != nil {
-		panic(err)
+
+	var res []*Book
+	for _, book := range books {
+		if book.PictureURL != "" {
+			res = append(res, book)
+		}
 	}
+
+	return res
+}
+
+func newMemoryBackend(config *config.BooksConfig) Backend {
+
+	books := loadContent("meli")
+	books = append(books, loadContent("distribuidoralabotica")...)
+
 	for _, book := range books {
 		book.ID = uuid.New().String()
+		book.Price = book.Price * 3
 	}
 	return &memoryBackend{
 		config: config,

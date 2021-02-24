@@ -13,6 +13,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 
 	"bookstore/books"
 	"bookstore/item"
@@ -21,7 +22,59 @@ import (
 	"github.com/nfnt/resize"
 )
 
-func scrap() {
+func scrapBooks() {
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	go scrapBotanica(&wg, "distribuidoralabotica.json")
+	go scrapMeli(&wg, "meli.json")
+
+	wg.Wait()
+}
+
+func scrapMeli(wg *sync.WaitGroup, fileName string) {
+	if wg != nil {
+		defer wg.Done()
+	}
+
+	allBooks := make([]*books.Book, 0)
+	from := 0
+
+	for {
+		c := colly.NewCollector()
+		fmt.Fprintf(os.Stderr, "\n count: %d", len(allBooks))
+		initialLen := len(allBooks)
+		// On every a element which has href attribute call callback
+		c.OnHTML("ol", func(e *colly.HTMLElement) {
+			e.ForEach("li", func(_ int, pub *colly.HTMLElement) {
+				book := &books.Book{Item: &item.Item{}}
+				book.Name = pub.ChildAttr("a", "title")
+				price, _ := strconv.Atoi(pub.ChildText("span.price-tag-fraction"))
+				book.Price = int64(price) * 100
+				book.PictureURL = pub.ChildAttr("img", "data-src")
+				allBooks = append(allBooks, book)
+			})
+		})
+
+		c.Visit(fmt.Sprintf("https://m4editorialml.mercadoshops.com.ar/libros/_Desde_%d", from))
+		c.Wait()
+
+		if len(allBooks) == initialLen {
+			break
+		}
+
+		from += 50
+	}
+
+	saveBooks(allBooks, fileName)
+	fmt.Fprintf(os.Stderr, "\n meli done")
+}
+
+func scrapBotanica(wg *sync.WaitGroup, filename string) {
+	if wg != nil {
+		defer wg.Done()
+	}
+
 	// Instantiate default collector
 	c := colly.NewCollector()
 
@@ -48,7 +101,7 @@ func scrap() {
 					strPrice := strings.ReplaceAll(el.Text, "$", "")
 					strPrice = strings.ReplaceAll(strPrice, ".", "")
 					price, _ := strconv.Atoi(strPrice)
-					book.Price = int64(price) * 3
+					book.Price = int64(price)
 				}
 			})
 			allBooks = append(allBooks, book)
@@ -59,18 +112,23 @@ func scrap() {
 	c.Visit("http://www.distribuidoralabotica.com.ar/libro/CatalogoLibrosC")
 	c.Wait()
 
-	bytes, err := json.Marshal(allBooks)
+	saveBooks(allBooks, filename)
+	fmt.Fprintf(os.Stderr, "\n botanica done")
+}
+
+func saveBooks(books []*books.Book, filename string) {
+	bytes, err := json.Marshal(books)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	// write the whole body at once
-	err = ioutil.WriteFile("output.json", bytes, 0644)
+	err = ioutil.WriteFile(filename, bytes, 0644)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		return
 	}
-
 }
 
 func downloadIMG(URL string) ([]byte, error) {
