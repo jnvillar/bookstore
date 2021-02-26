@@ -79,8 +79,8 @@ export const Home = () => {
                 <ButtonGroup className="mr-2" aria-label="Second group">
                   <DropdownButton as={ButtonGroup} title={priceTitle[search['price']]} id="bg-vertical-dropdown-2"
                                   variant={"dark"}>
-                    <Dropdown.Item onClick={e => onSetPriceOrder("desc")}>Más caro</Dropdown.Item>
-                    <Dropdown.Item onClick={e => onSetPriceOrder("asc")}>Más baratos</Dropdown.Item>
+                    <Dropdown.Item active={search.price === 'desc'} onClick={e => onSetPriceOrder("desc")}>Más caro</Dropdown.Item>
+                    <Dropdown.Item active={search.price === 'asc' ? 'active' : ''} onClick={e => onSetPriceOrder("asc")}>Más baratos</Dropdown.Item>
                   </DropdownButton>
                 </ButtonGroup>
               </ButtonToolbar>
