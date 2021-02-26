@@ -13,7 +13,7 @@ export const Header = () => {
 
   return (
     <div>
-      <Navbar bg="dark" expand="lg">
+      <Navbar bg="dark" expand="lg" sticky="top">
         <Navbar.Brand className={"brand"} href="">La librería</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse className="justify-content-end">

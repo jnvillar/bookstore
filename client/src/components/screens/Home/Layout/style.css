@@ -5,7 +5,6 @@
 }
 
 .book-body-mobile {
-
     padding: 10px !important;
     font-size: 13px !important;
     font-family: Arial !important;
@@ -41,7 +40,6 @@
 
 .book {
     width: 160px;
-    height: 450px;
     display: flex;
     margin-bottom: 2%;
     margin-left: 1%;
