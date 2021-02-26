@@ -16,8 +16,8 @@ import './home.css'
 export const Home = () => {
 
   const priceTitle = {
-    'asc': 'Más baratos',
-    'desc': 'Más caros',
+    'asc': 'Mayor a menor',
+    'desc': 'Menor a mayor',
     '': 'Precio'
   }
 
