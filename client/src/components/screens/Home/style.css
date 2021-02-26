@@ -4,7 +4,8 @@
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    height: 200px
+    min-height: 150px;
+    height: 200px;
 }
 
 .search {
@@ -19,5 +20,3 @@
     flex-wrap: wrap;
     justify-content: center;
 }
-
-

@@ -5,6 +5,7 @@
 }
 
 .book-body-mobile {
+
     padding: 10px !important;
     font-size: 13px !important;
     font-family: Arial !important;
@@ -39,15 +40,8 @@
 }
 
 .book {
-    width: 15%;
-    display: flex;
-    margin-bottom: 2%;
-    margin-left: 1%;
-    margin-right: 1%;
-}
-
-.book-mobile {
-    width: 40%;
+    width: 160px;
+    height: 450px;
     display: flex;
     margin-bottom: 2%;
     margin-left: 1%;

@@ -6,7 +6,7 @@ import './style.css'
 
 export const Book = ({book}) => {
   return (
-    <Card className={isMobile ? 'book-mobile' : 'book'}>
+    <Card className={'book'}>
       <Card.Img className={isMobile ? 'book-image-mobile' : 'book-image'} variant="top" src={book.pictureUrl}/>
       <Card.Body className={isMobile ? 'book-body-mobile' : 'book-body'}>
         <Card.Text>{book.name}</Card.Text>

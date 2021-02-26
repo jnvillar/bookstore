@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import { Home } from "./components/screens/Home/Home";
 import React, { useEffect } from 'react';
+import { Header } from "./components/header/Header";
 
 function App() {
 
@@ -13,13 +14,16 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact>
-          <Home/>
-        </Route>
-      </Switch>
-    </Router>
+    <main className={"page"}>
+      <Router>
+        <Header/>
+        <Switch>
+          <Route path="/" exact>
+            <Home/>
+          </Route>
+        </Switch>
+      </Router>
+    </main>
   );
 }
 

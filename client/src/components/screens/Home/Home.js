@@ -4,7 +4,6 @@ import { getBooks } from "../../../api/client";
 import Form from 'react-bootstrap/Form';
 import debounce from 'lodash.debounce';
 import { Book } from "./Layout/Book";
-import axios from 'axios';
 import './style.css'
 
 export const Home = () => {
@@ -29,11 +28,11 @@ export const Home = () => {
   }
 
   return (
-    <div>
+    <div className={"page"}>
       <div className="header"/>
       <Container>
         <Form className="search">
-          <Form.Group controlId="formBasicEmail">
+          <Form.Group>
             <Form.Control type="text" placeholder="Buscar" onChange={onSearchInput}/>
           </Form.Group>
         </Form>
