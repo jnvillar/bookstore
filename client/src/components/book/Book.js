@@ -1,8 +1,8 @@
 import React from 'react';
 import Card from "react-bootstrap/Card";
-import { formatPrice } from "../../../../lib/utils";
+import { formatPrice } from "../../lib/utils";
 import { isMobile } from 'react-device-detect';
-import './style.css'
+import './book.css'
 
 export const Book = ({book}) => {
   return (

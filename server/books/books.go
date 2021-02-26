@@ -12,7 +12,7 @@ type Backend interface {
 	Get(id string) (*Book, error)
 	Update(book *Book) (*Book, error)
 	Create(book *Book) (*Book, error)
-	List(search *BookSearch, page int) ([]*Book, error)
+	List(search *BookSearch) ([]*Book, error)
 }
 
 type Factory struct {
@@ -39,8 +39,8 @@ func (f *Factory) Create(book *Book) (*Book, error) {
 	return f.backend.Create(book)
 }
 
-func (f *Factory) List(search *BookSearch, page int) ([]*Book, error) {
-	return f.backend.List(search, page)
+func (f *Factory) List(search *BookSearch) ([]*Book, error) {
+	return f.backend.List(search)
 }
 
 func (f *Factory) Get(bookID string) (*Book, error) {

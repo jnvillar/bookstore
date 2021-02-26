@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"sort"
 	"strings"
 
 	"bookstore/config"
@@ -83,23 +84,34 @@ func newMemoryBackend(config *config.BooksConfig) Backend {
 	}
 }
 
-func (m *memoryBackend) List(bookSearch *BookSearch, page int) ([]*Book, error) {
-	res := make([]*Book, 0)
+func (m *memoryBackend) List(bookSearch *BookSearch) ([]*Book, error) {
+	res := make([]*Book, len(m.books))
+
 	if bookSearch.GetName() == "" {
-		if m.config.PageSize < len(m.books) {
-			return m.books[0:m.config.PageSize], nil
-		}
-		return m.books, nil
-	}
-	for _, book := range m.books {
-		if strings.Contains(strings.ToLower(book.Name), strings.ToLower(bookSearch.Name)) ||
-			book.HasAuthor(strings.ToLower(bookSearch.Name)) {
-			res = append(res, book)
+		copy(res, m.books)
+	} else {
+		for _, book := range m.books {
+			if strings.Contains(strings.ToLower(book.Name), strings.ToLower(bookSearch.Name)) ||
+				book.HasAuthor(strings.ToLower(bookSearch.Name)) {
+				res = append(res, book)
+			}
 		}
 	}
 
 	if m.config.PageSize < len(res) {
-		return res[0:m.config.PageSize], nil
+		res = res[0:m.config.PageSize]
+	}
+
+	switch bookSearch.PriceOrder {
+	case DESC:
+		sort.Slice(res[:], func(i, j int) bool {
+			return res[i].Price > res[j].Price
+		})
+	case ASC:
+		sort.Slice(res[:], func(i, j int) bool {
+			return res[i].Price < res[j].Price
+		})
+
 	}
 
 	return res, nil

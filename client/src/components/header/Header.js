@@ -1,7 +1,7 @@
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import React, { useState } from 'react';
-import './style.css'
+import './header.css'
 import { Contact } from "../contact/Contact";
 
 export const Header = () => {

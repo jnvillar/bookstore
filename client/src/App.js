@@ -6,6 +6,7 @@ import {
 import { Home } from "./components/screens/Home/Home";
 import React, { useEffect } from 'react';
 import { Header } from "./components/header/Header";
+require('typeface-allura');
 
 function App() {
 
