@@ -8,10 +8,22 @@
     height: 200px;
 }
 
+.page-container {
+    margin-left: 7.5% !important;
+    width: 85% !important;
+}
+
+@media (max-width: 600px) {
+    .header {
+        height: 150px;
+    }
+}
+
 .search {
     margin-top: 35px;
     margin-bottom: 30px;
-    width: 100%;
+    margin-left: 7.5%;
+    width: 85%;
 }
 
 .books-container {

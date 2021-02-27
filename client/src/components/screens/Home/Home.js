@@ -27,6 +27,7 @@ export const Home = () => {
 
   const debounceGetBooks = useCallback(
     debounce((search) => getBooks(search).then(r => {
+      console.log(r)
       setBooks(r)
     }), 250), []
   );
@@ -61,7 +62,7 @@ export const Home = () => {
   return (
     <div className={"page"}>
       <div className="header"/>
-      <Container>
+      <div className={"page-container"}>
         <Form className="search">
           <Form.Group>
             <InputGroup className="mb-3">
@@ -79,8 +80,10 @@ export const Home = () => {
                 <ButtonGroup className="mr-2" aria-label="Second group">
                   <DropdownButton as={ButtonGroup} title={priceTitle[search['price']]} id="bg-vertical-dropdown-2"
                                   variant={"dark"}>
-                    <Dropdown.Item active={search.price === 'desc'} onClick={e => onSetPriceOrder("desc")}>{priceTitle['desc']}</Dropdown.Item>
-                    <Dropdown.Item active={search.price === 'asc' ? 'active' : ''} onClick={e => onSetPriceOrder("asc")}>{priceTitle['asc']}</Dropdown.Item>
+                    <Dropdown.Item active={search.price === 'desc'}
+                                   onClick={e => onSetPriceOrder("desc")}>{priceTitle['desc']}</Dropdown.Item>
+                    <Dropdown.Item active={search.price === 'asc' ? 'active' : ''}
+                                   onClick={e => onSetPriceOrder("asc")}>{priceTitle['asc']}</Dropdown.Item>
                   </DropdownButton>
                 </ButtonGroup>
               </ButtonToolbar>
@@ -95,7 +98,7 @@ export const Home = () => {
             ))
           }
         </div>
-      </Container>
+      </div>
     </div>
   )
 }

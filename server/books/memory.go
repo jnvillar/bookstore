@@ -85,11 +85,13 @@ func newMemoryBackend(config *config.BooksConfig) Backend {
 }
 
 func (m *memoryBackend) List(bookSearch *BookSearch) ([]*Book, error) {
-	res := make([]*Book, len(m.books))
+	var res []*Book
 
 	if bookSearch.GetName() == "" {
+		res = make([]*Book, len(m.books))
 		copy(res, m.books)
 	} else {
+		res = make([]*Book, 0)
 		for _, book := range m.books {
 			if strings.Contains(strings.ToLower(book.Name), strings.ToLower(bookSearch.Name)) ||
 				book.HasAuthor(strings.ToLower(bookSearch.Name)) {
