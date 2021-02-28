@@ -8,3 +8,11 @@ export const getBooks = (search) => {
       return res.data
     })
 }
+
+export const getCategories = () => {
+  const url = `api/books/categories`
+  return axios.get(url)
+    .then(res => {
+      return res.data
+    })
+}

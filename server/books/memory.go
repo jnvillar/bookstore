@@ -18,6 +18,20 @@ type memoryBackend struct {
 	config *config.BooksConfig
 }
 
+func (m *memoryBackend) GetCategories() ([]string, error) {
+	categories := map[string]string{}
+	for _, book := range m.books {
+		for _, c := range book.Category {
+			categories[c] = c
+		}
+	}
+	res := make([]string, 0)
+	for k, _ := range categories {
+		res = append(res, k)
+	}
+	return res, nil
+}
+
 func (m *memoryBackend) Get(bookID string) (*Book, error) {
 	for _, book := range m.books {
 		if book.ID == bookID {

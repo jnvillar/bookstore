@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Pagination from 'react-bootstrap/Pagination';
-import { getBooks } from "../../../api/client";
+import { getBooks, getCategories } from "../../../api/client";
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
@@ -24,6 +24,7 @@ export const Home = () => {
     '': 'Precio'
   }
 
+  const [categories, setCategories] = useState([])
   const [searching, setSearching] = useState(false)
   const [books, setBooks] = useState([])
   const [advancedSearch, setAdvancedSearch] = useState(false)
@@ -44,6 +45,9 @@ export const Home = () => {
   useEffect(() => {
     getBooks(search).then(r => {
       setBooks(r)
+    })
+    getCategories().then(r => {
+      setCategories(r)
     })
   }, []);
 
@@ -96,18 +100,21 @@ export const Home = () => {
                 <DropdownButton as={ButtonGroup} title={priceTitle[search.price]} id="bg-vertical-dropdown-2"
                                 variant={"dark"}>
                   <Dropdown.Item active={search.price === 'desc'}
-                                 onClick={e => onSetPriceOrder("desc")}>{priceTitle['desc']}</Dropdown.Item>
+                                 onClick={() => onSetPriceOrder("desc")}>{priceTitle['desc']}</Dropdown.Item>
                   <Dropdown.Item active={search.price === 'asc' ? 'active' : ''}
-                                 onClick={e => onSetPriceOrder("asc")}>{priceTitle['asc']}</Dropdown.Item>
+                                 onClick={() => onSetPriceOrder("asc")}>{priceTitle['asc']}</Dropdown.Item>
                 </DropdownButton>
               </ButtonGroup>
 
               <ButtonGroup className="mr-2" aria-label="Second group">
-                <DropdownButton as={ButtonGroup} title={search.cat === '' ? "Categoría" : search.cat.toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase())}
+                <DropdownButton as={ButtonGroup}
+                                title={search.cat === '' ? "Categoría" : search.cat.toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase())}
                                 id="bg-vertical-dropdown-2"
                                 variant={"dark"}>
-                  <Dropdown.Item onClick={e => onSetCategory("terror")}>Terror</Dropdown.Item>
-                  <Dropdown.Item onClick={e => onSetCategory("accion")}>Acción</Dropdown.Item>
+                  {categories.map(cat =>
+                    <Dropdown.Item active={search.cat === cat}
+                                   onClick={() => onSetCategory(cat)}>{cat.toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase())}</Dropdown.Item>
+                  )}
                 </DropdownButton>
               </ButtonGroup>
             </ButtonToolbar> : null
@@ -125,9 +132,9 @@ export const Home = () => {
           ?
           <div className={"results"}>
             <Pagination className={"pagination"}>
-              <Pagination.Prev onClick={e => onPageChange(-1)}/>
+              <Pagination.Prev onClick={() => onPageChange(-1)}/>
               <Pagination.Item>Página: {search.page + 1}</Pagination.Item>
-              <Pagination.Next onClick={e => onPageChange(1)}/>
+              <Pagination.Next onClick={() => onPageChange(1)}/>
             </Pagination>
             <div className="books-container">
               {
@@ -136,9 +143,9 @@ export const Home = () => {
                 ))
               }</div>
             <Pagination className={"pagination"}>
-              <Pagination.Prev onClick={e => onPageChange(-1)}/>
+              <Pagination.Prev onClick={() => onPageChange(-1)}/>
               <Pagination.Item> Página: {search.page + 1}</Pagination.Item>
-              <Pagination.Next onClick={e => onPageChange(1)}/>
+              <Pagination.Next onClick={() => onPageChange(1)}/>
             </Pagination>
           </div> : null
         }

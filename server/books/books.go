@@ -13,6 +13,7 @@ type Backend interface {
 	Update(book *Book) (*Book, error)
 	Create(book *Book) (*Book, error)
 	List(search *BookSearch) ([]*Book, error)
+	GetCategories() ([]string, error)
 }
 
 type Factory struct {
@@ -41,6 +42,10 @@ func (f *Factory) Create(book *Book) (*Book, error) {
 
 func (f *Factory) List(search *BookSearch) ([]*Book, error) {
 	return f.backend.List(search)
+}
+
+func (f *Factory) GetCategories() ([]string, error) {
+	return f.backend.GetCategories()
 }
 
 func (f *Factory) Get(bookID string) (*Book, error) {

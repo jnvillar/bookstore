@@ -33,7 +33,7 @@ func NewBooksHandler(log *log.Factory, validator *validator2.MessageValidator, a
 
 func (b *BooksHandler) RegisterRoutes(router *gin.RouterGroup) {
 	booksApi := router.Group("/books")
-
+	booksApi.GET("/categories", func(c *gin.Context) { b.listCategories(c.Writer, c.Request) })
 	booksApi.GET("", func(c *gin.Context) { b.listBooks(c.Writer, c.Request) })
 	booksApi.POST("", func(c *gin.Context) { b.createBook(c.Writer, c.Request) })
 	booksApi.PUT("", func(c *gin.Context) { b.updateBook(c.Writer, c.Request) })
@@ -66,6 +66,24 @@ func (b *BooksHandler) updateBook(w http.ResponseWriter, r *http.Request) {
 	err = json.NewEncoder(w).Encode(updatedBook)
 	if err != nil {
 		b.log.Error("error marshalling updated book", err)
+		utils.WriteError(http.StatusInternalServerError, w, err)
+		return
+	}
+}
+
+func (b *BooksHandler) listCategories(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	categories, err := b.books.GetCategories()
+	if err != nil {
+		b.log.Error("error fetching books categories", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	err = json.NewEncoder(w).Encode(categories)
+	if err != nil {
+		b.log.Error("error marshalling categories", err)
 		utils.WriteError(http.StatusInternalServerError, w, err)
 		return
 	}
