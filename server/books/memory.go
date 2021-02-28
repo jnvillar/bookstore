@@ -88,6 +88,16 @@ func (m *memoryBackend) List(bookSearch *BookSearch) ([]*Book, error) {
 	booksCopy := make([]*Book, len(m.books))
 	copy(booksCopy, m.books)
 
+	filteredByCategory := make([]*Book, 0)
+	if bookSearch.Category != "" {
+		for _, book := range booksCopy {
+			if book.HasCategory(bookSearch.Category) {
+				filteredByCategory = append(filteredByCategory, book)
+			}
+		}
+		booksCopy = filteredByCategory
+	}
+
 	// sort by price
 	switch bookSearch.PriceOrder {
 	case DESC:

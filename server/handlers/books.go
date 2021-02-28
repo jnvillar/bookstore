@@ -80,12 +80,14 @@ func (b *BooksHandler) listBooks(w http.ResponseWriter, r *http.Request) {
 		page = 0
 	}
 
+	cat := r.URL.Query().Get("cat")
 	search := r.URL.Query().Get("search")
 	priceOrder := r.URL.Query().Get("price")
 
 	bookSearch := &books.BookSearch{
 		Name:       search,
 		Page:       page,
+		Category:   cat,
 		PriceOrder: books.StringToPriceOrder(priceOrder),
 	}
 

@@ -10,7 +10,6 @@
 
 .search {
     margin-top: 35px;
-    margin-bottom: 20px;
     width: 85%;
 }
 
@@ -27,6 +26,8 @@
 }
 
 .pagination {
+    margin-top: 10px;
+    margin-bottom: 10px;
     justify-content: center;
 
 }

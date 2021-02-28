@@ -4,6 +4,7 @@ type BookSearch struct {
 	Name       string
 	Page       int
 	PriceOrder PriceOrder
+	Category   string
 }
 
 type PriceOrder = string

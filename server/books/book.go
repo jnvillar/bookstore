@@ -21,6 +21,17 @@ func (b *Book) GetAuthor() []string {
 	return []string{}
 }
 
+
+func (b *Book) HasCategory(search string) bool {
+	if b == nil {
+		return false
+	}
+	for _, cat := range b.Category {
+		return strings.Contains(strings.ToLower(cat), strings.ToLower(search))
+	}
+	return false
+}
+
 func (b *Book) HasAuthor(search string) bool {
 	if b == nil {
 		return false

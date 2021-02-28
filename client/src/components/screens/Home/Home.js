@@ -27,11 +27,11 @@ export const Home = () => {
   const [searching, setSearching] = useState(false)
   const [books, setBooks] = useState([])
   const [advancedSearch, setAdvancedSearch] = useState(false)
-  const [search, setSearch] = useState({search: '', price: '', page: 0})
+  const [search, setSearch] = useState({search: '', price: '', page: 0, cat: ''})
 
   const onPageChange = (page) => {
     const newPage = Math.max(0, search.page + page)
-    setSearch({search: search['search'], price: search.price, page: newPage})
+    setSearch({search: search['search'], price: search.price, page: newPage, cat: search.cat})
   }
 
   const debounceGetBooks = useCallback(
@@ -60,12 +60,19 @@ export const Home = () => {
     if (priceOrder === search['price']) {
       priceOrder = ''
     }
-    setSearch({search: search.search, price: priceOrder, page: search.page})
+    setSearch({search: search.search, price: priceOrder, page: search.page, cat: search.cat})
+  }
+
+  const onSetCategory = (category) => {
+    if (category === search.cat) {
+      category = ''
+    }
+    setSearch({search: search.search, price: search.price, page: search.page, cat: category})
   }
 
   const onSearchInput = (input) => {
     const searchInput = input.target.value.toLowerCase()
-    setSearch({search: searchInput, price: search.price, page: search.page})
+    setSearch({search: searchInput, price: search.price, page: 0, cat: search.cat})
   }
 
   return (
@@ -86,12 +93,21 @@ export const Home = () => {
             ?
             <ButtonToolbar aria-label="Toolbar with button groups">
               <ButtonGroup className="mr-2" aria-label="Second group">
-                <DropdownButton as={ButtonGroup} title={priceTitle[search['price']]} id="bg-vertical-dropdown-2"
+                <DropdownButton as={ButtonGroup} title={priceTitle[search.price]} id="bg-vertical-dropdown-2"
                                 variant={"dark"}>
                   <Dropdown.Item active={search.price === 'desc'}
                                  onClick={e => onSetPriceOrder("desc")}>{priceTitle['desc']}</Dropdown.Item>
                   <Dropdown.Item active={search.price === 'asc' ? 'active' : ''}
                                  onClick={e => onSetPriceOrder("asc")}>{priceTitle['asc']}</Dropdown.Item>
+                </DropdownButton>
+              </ButtonGroup>
+
+              <ButtonGroup className="mr-2" aria-label="Second group">
+                <DropdownButton as={ButtonGroup} title={search.cat === '' ? "Categoría" : search.cat.toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase())}
+                                id="bg-vertical-dropdown-2"
+                                variant={"dark"}>
+                  <Dropdown.Item onClick={e => onSetCategory("terror")}>Terror</Dropdown.Item>
+                  <Dropdown.Item onClick={e => onSetCategory("accion")}>Acción</Dropdown.Item>
                 </DropdownButton>
               </ButtonGroup>
             </ButtonToolbar> : null
