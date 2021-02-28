@@ -85,36 +85,43 @@ func newMemoryBackend(config *config.BooksConfig) Backend {
 }
 
 func (m *memoryBackend) List(bookSearch *BookSearch) ([]*Book, error) {
-	var res []*Book
+	booksCopy := make([]*Book, len(m.books))
+	copy(booksCopy, m.books)
 
-	if bookSearch.GetName() == "" {
-		res = make([]*Book, len(m.books))
-		copy(res, m.books)
-	} else {
-		res = make([]*Book, 0)
-		for _, book := range m.books {
-			if strings.Contains(strings.ToLower(book.Name), strings.ToLower(bookSearch.Name)) ||
-				book.HasAuthor(strings.ToLower(bookSearch.Name)) {
-				res = append(res, book)
-			}
-		}
-	}
-
-	if m.config.PageSize < len(res) {
-		res = res[0:m.config.PageSize]
-	}
-
+	// sort by price
 	switch bookSearch.PriceOrder {
 	case DESC:
-		sort.Slice(res[:], func(i, j int) bool {
-			return res[i].Price > res[j].Price
+		sort.Slice(booksCopy[:], func(i, j int) bool {
+			return booksCopy[i].Price > booksCopy[j].Price
 		})
 	case ASC:
-		sort.Slice(res[:], func(i, j int) bool {
-			return res[i].Price < res[j].Price
+		sort.Slice(booksCopy[:], func(i, j int) bool {
+			return booksCopy[i].Price < booksCopy[j].Price
 		})
-
 	}
 
-	return res, nil
+	// filter by name
+	filteredByName := make([]*Book, 0)
+	if bookSearch.GetName() != "" {
+		for _, book := range booksCopy {
+			if strings.Contains(strings.ToLower(book.Name), strings.ToLower(bookSearch.Name)) ||
+				book.HasAuthor(strings.ToLower(bookSearch.Name)) {
+				filteredByName = append(filteredByName, book)
+			}
+		}
+		booksCopy = filteredByName
+	}
+
+	// apply pagination
+	start := bookSearch.Page * m.config.PageSize
+	if len(booksCopy) > start {
+		booksCopy = booksCopy[start:]
+	}
+
+	// trim by pagesize
+	if len(booksCopy) > m.config.PageSize {
+		booksCopy = booksCopy[0:m.config.PageSize]
+	}
+
+	return booksCopy, nil
 }

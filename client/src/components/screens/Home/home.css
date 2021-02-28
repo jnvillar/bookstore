@@ -8,27 +8,39 @@
     height: 200px;
 }
 
+.search {
+    margin-top: 35px;
+    margin-bottom: 20px;
+    width: 85%;
+}
+
+.books-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
+.results {
+    display: flex;
+    flex-direction: column;
+}
+
+.pagination {
+    justify-content: center;
+
+}
 .page-container {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    flex-direction: column;
     margin-left: 7.5% !important;
-    width: 85% !important;
+    width: 80% !important;
 }
 
 @media (max-width: 600px) {
     .header {
         height: 150px;
     }
-}
-
-.search {
-    margin-top: 35px;
-    margin-bottom: 30px;
-    margin-left: 7.5%;
-    width: 85%;
-}
-
-.books-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
 }
