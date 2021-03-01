@@ -89,14 +89,14 @@ func newMemoryBackend(config *config.BooksConfig) Backend {
 
 	for _, book := range meliBooks {
 		book.ID = uuid.New().String()
-		book.Price = int64(float64(book.Price) * 2.5)
+		book.Price = int64(float64(book.Price) * 2)
 	}
 
 	botanicaBooks := loadContent("distribuidoralabotica")
 
 	for _, book := range botanicaBooks {
 		book.ID = uuid.New().String()
-		book.Price = int64(float64(book.Price) * 2)
+		book.Price = int64(float64(book.Price) * 2.5)
 	}
 
 	return &memoryBackend{
