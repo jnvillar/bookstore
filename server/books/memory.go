@@ -85,16 +85,23 @@ func loadContent(fileName string) []*Book {
 
 func newMemoryBackend(config *config.BooksConfig) Backend {
 
-	books := loadContent("meli")
-	books = append(books, loadContent("distribuidoralabotica")...)
+	meliBooks := loadContent("meli")
 
-	for _, book := range books {
+	for _, book := range meliBooks {
 		book.ID = uuid.New().String()
-		book.Price = book.Price * 3
+		book.Price = int64(float64(book.Price) * 2.5)
 	}
+
+	botanicaBooks := loadContent("distribuidoralabotica")
+
+	for _, book := range botanicaBooks {
+		book.ID = uuid.New().String()
+		book.Price = int64(float64(book.Price) * 2)
+	}
+
 	return &memoryBackend{
 		config: config,
-		books:  books,
+		books:  append(meliBooks, botanicaBooks...),
 	}
 }
 
