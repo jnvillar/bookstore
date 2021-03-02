@@ -1,6 +1,8 @@
 package middlewares
 
 import (
+	"fmt"
+
 	"bookstore/analytics"
 	"bookstore/log"
 
@@ -24,7 +26,7 @@ func (m *AnalyticsMiddleware) RegisterMiddleware(router *gin.Engine) {
 }
 
 func (m *AnalyticsMiddleware) AnalyticsMiddleWare(c *gin.Context) {
-	m.log.Info("registering visit")
+	m.log.Info(fmt.Sprintf("registering visit: %s %v", c.Request.RemoteAddr, c.Request.Header))
 	if err := m.analytics.AddVisit(c.Request.RemoteAddr); err != nil {
 		m.log.Error("error logging visit", err)
 	}
