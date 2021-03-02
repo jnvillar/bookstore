@@ -42,16 +42,20 @@ func (m *memoryBackend) Get(bookID string) (*Book, error) {
 }
 
 func (m *memoryBackend) Update(book *Book) (*Book, error) {
-	oldBook, err := m.Get(book.ID)
+	_, err := m.Get(book.ID)
 	if err != nil {
 		return nil, err
 	}
-	oldBook.Name = book.Name
-	oldBook.Author = book.Author
-	oldBook.Stock = book.Stock
-	oldBook.PictureURL = book.PictureURL
-	oldBook.Price = book.Price
-	return oldBook, err
+	res := make([]*Book, 0)
+	for _, b := range m.books {
+		if b.ID == book.ID {
+			res = append(res, book)
+		} else {
+			res = append(res, b)
+		}
+	}
+
+	return book, nil
 }
 
 func (m *memoryBackend) Create(book *Book) (*Book, error) {

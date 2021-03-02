@@ -15,7 +15,6 @@ func NewMessageValidator() *MessageValidator {
 	return &MessageValidator{}
 }
 
-
 func (m *MessageValidator) ValidateUpdateBook(params map[string]interface{}) error {
 	return FirstNonValid(
 		[]SimpleValidation{
@@ -38,17 +37,11 @@ func (m *MessageValidator) ValidateListBooks(r *http.Request) error {
 		}...)
 }
 
-
 func (m *MessageValidator) ValidateCreateBook(book *books.Book) error {
 	return FirstNonValid(
 		[]SimpleValidation{
 			{
 				Parameter: book.GetName(),
-				Validator: StringPresent,
-				ErrorMsg:  MustProvideNameField,
-			},
-			{
-				Parameter: book.GetAuthor(),
 				Validator: StringPresent,
 				ErrorMsg:  MustProvideNameField,
 			},

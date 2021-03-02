@@ -8,10 +8,10 @@ import (
 )
 
 type Book struct {
-	*item.Item
-	Author    []string `json:"author"`
-	Category  []string `json:"category"`
-	Publisher []string `json:"publisher"`
+	*item.Item `mapstructure:",squash"`
+	Author     []string `json:"author"`
+	Category   []string `json:"category"`
+	Publisher  []string `json:"publisher"`
 }
 
 func (b *Book) GetAuthor() []string {
@@ -20,7 +20,6 @@ func (b *Book) GetAuthor() []string {
 	}
 	return []string{}
 }
-
 
 func (b *Book) HasCategory(search string) bool {
 	if b == nil {
