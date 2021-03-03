@@ -1,26 +1,19 @@
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import React, { useState } from 'react';
+import React from 'react';
 import './header.css'
-import { Contact } from "../contact/Contact";
 
-export const Header = () => {
-  const [showContact, setShow] = useState(false);
 
-  const handleShowContact = (show) => {
-    setShow(show);
-  }
-
+export const Header = ({showContact}) => {
   return (
     <div>
       <Navbar bg="dark" expand="lg" sticky="top">
         <Navbar.Brand className={"brand"} href="">La librería</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse bg="light" className="justify-content-end">
-          <Nav.Link className={"contact"} onClick={e => handleShowContact(true)}>Contacto</Nav.Link>
+          <Nav.Link className={"contact"} onClick={() => showContact(true)}>Contacto</Nav.Link>
         </Navbar.Collapse>
       </Navbar>
-      <Contact shouldShow={showContact} handleClose={e => handleShowContact(false)}/>
     </div>
   )
 }

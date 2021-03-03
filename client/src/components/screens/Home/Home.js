@@ -15,7 +15,7 @@ import './home.css'
 import { BookDetail } from "../../bookDetail/BookDetail";
 import { Page } from "../../pagination/Pagination";
 
-export const Home = () => {
+export const Home = ({showContact}) => {
 
   const priceTitle = {
     'asc': 'Menor a mayor',
@@ -129,7 +129,7 @@ export const Home = () => {
         </div>
 
         {bookSelected
-          ? <BookDetail book={bookSelected} onHide={() => onSelectBook(null)}/> : null
+          ? <BookDetail book={bookSelected} showContact={showContact} onHide={() => onSelectBook(null)}/> : null
         }
 
         {searching

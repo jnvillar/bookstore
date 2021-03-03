@@ -1,13 +1,10 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import React, { useState } from 'react';
+import React from 'react';
 import './bookDetail.css'
 import { formatPrice, getBookCode } from "../../lib/utils";
-import { Contact } from "../contact/Contact";
 
-
-export const BookDetail = ({book, onHide}) => {
-  const [showContact, setShowContact] = useState(false)
+export const BookDetail = ({book, onHide, showContact}) => {
   return (
     <div>
       <Modal show onHide={onHide} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
@@ -28,11 +25,10 @@ export const BookDetail = ({book, onHide}) => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant={"success"} onClick={() => setShowContact(true)}>Comprar</Button>
-          <Button variant={"danger"} onClick={onHide}>Cerrar</Button>
+          <Button variant={"outline-success"} onClick={() => {onHide(); showContact(true)}}>Comprar</Button>
+          <Button variant={"outline-dark"} onClick={onHide}>Cerrar</Button>
         </Modal.Footer>
       </Modal>
-      <Contact shouldShow={showContact} handleClose={() => setShowContact(false)}/>
     </div>
   );
 }
