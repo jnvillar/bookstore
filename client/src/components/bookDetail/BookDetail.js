@@ -8,7 +8,7 @@ import { formatPrice, getBookCode } from "../../lib/utils";
 export const BookDetail = ({book, onHide}) => {
   return (
     <Modal show onHide={onHide} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
           {book.name}
         </Modal.Title>
