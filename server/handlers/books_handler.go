@@ -32,11 +32,29 @@ func NewBooksHandler(log *log.Factory, validator *validator2.MessageValidator, a
 }
 
 func (b *BooksHandler) RegisterRoutes(router *gin.RouterGroup) {
+	router.GET("/bookCategories", func(c *gin.Context) { b.listCategories(c.Writer, c.Request) })
+
 	booksApi := router.Group("/books")
-	booksApi.GET("/categories", func(c *gin.Context) { b.listCategories(c.Writer, c.Request) })
 	booksApi.GET("", func(c *gin.Context) { b.listBooks(c.Writer, c.Request) })
 	booksApi.POST("", func(c *gin.Context) { b.createBook(c.Writer, c.Request) })
 	booksApi.PUT("", func(c *gin.Context) { b.updateBook(c.Writer, c.Request) })
+	booksApi.GET(":id/visit", func(c *gin.Context) { b.visitBook(c) })
+}
+
+func (b *BooksHandler) visitBook(c *gin.Context) {
+	c.Writer.Header().Set("Content-Type", "application/json")
+	bookID := c.Param("id")
+
+	err := b.books.Visit(bookID)
+	if err != nil {
+		utils.WriteError(http.StatusBadRequest, c.Writer, err)
+		return
+	}
+
+	_, err = c.Writer.Write([]byte("{}"))
+	if err != nil {
+		b.log.Error("visit book", err)
+	}
 }
 
 func (b *BooksHandler) updateBook(w http.ResponseWriter, r *http.Request) {

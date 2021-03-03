@@ -1,0 +1,14 @@
+.book-image-detail {
+    max-width: 200px !important;
+    max-height: 400px !important;
+    object-fit: cover !important;
+}
+
+.book-container-modal{
+    display: flex;
+}
+
+.book-details-modal {
+    margin-top: 10px;
+    margin-left: 20px;
+}

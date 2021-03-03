@@ -1,11 +1,11 @@
 import React from 'react';
 import Card from "react-bootstrap/Card";
-import { formatPrice, getCode } from "../../lib/utils";
+import { formatPrice } from "../../lib/utils";
 import './book.css'
 
-export const Book = ({book}) => {
+export const Book = ({book, selectBook}) => {
   return (
-    <Card className={'book'}>
+    <Card className={'book'} onClick={() => selectBook(book)}>
       <Card.Img className={'book-image'} variant="top" src={book.pictureUrl}/>
       <div className={'book-body'}>
         <Card.Body>
@@ -14,12 +14,9 @@ export const Book = ({book}) => {
         <Card.Footer className={'book-footer'}>
           <div className={'book-price'}>
             <b>Precio:</b> {formatPrice(book.price)}
-            <br/>
-            <b>Cód:</b> {getCode(book)}
           </div>
         </Card.Footer>
       </div>
-
     </Card>
   );
 }

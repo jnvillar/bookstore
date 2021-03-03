@@ -18,6 +18,19 @@ type memoryBackend struct {
 	config *config.BooksConfig
 }
 
+func (m *memoryBackend) Visit(bookID string) error {
+	_, err := m.Get(bookID)
+	if err != nil {
+		return err
+	}
+	for _, book := range m.books {
+		if book.ID == bookID {
+			book.Visits += 1
+		}
+	}
+	return nil
+}
+
 func (m *memoryBackend) GetCategories() ([]string, error) {
 	categories := map[string]string{}
 	for _, book := range m.books {
@@ -113,6 +126,11 @@ func (m *memoryBackend) List(bookSearch *BookSearch) ([]*Book, error) {
 	booksCopy := make([]*Book, len(m.books))
 	copy(booksCopy, m.books)
 
+	// sort by visits by default
+	sort.Slice(booksCopy[:], func(i, j int) bool {
+		return booksCopy[i].Visits > booksCopy[j].Visits
+	})
+
 	filteredByCategory := make([]*Book, 0)
 	if bookSearch.Category != "" {
 		for _, book := range booksCopy {
@@ -151,6 +169,8 @@ func (m *memoryBackend) List(bookSearch *BookSearch) ([]*Book, error) {
 	start := bookSearch.Page * m.config.PageSize
 	if len(booksCopy) > start {
 		booksCopy = booksCopy[start:]
+	} else {
+		booksCopy = []*Book{}
 	}
 
 	// trim by pagesize

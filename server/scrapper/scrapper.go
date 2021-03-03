@@ -96,7 +96,7 @@ func scrapBotanica(wg *sync.WaitGroup, filename string) {
 				case 4:
 					book.Author = []string{strings.Title(strings.ToLower(el.Text))}
 				case 5:
-					book.Author = []string{strings.Title(strings.ToLower(el.Text))}
+					book.Publisher = []string{strings.Title(strings.ToLower(el.Text))}
 				case 6:
 					book.Category = []string{strings.Title(strings.ToLower(el.Text))}
 				case 7:

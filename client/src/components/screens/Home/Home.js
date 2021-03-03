@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Pagination from 'react-bootstrap/Pagination';
-import { getBooks, getCategories } from "../../../api/client";
+import { getBooks, getCategories, visitBook } from "../../../api/client";
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
@@ -10,11 +9,11 @@ import Spinner from 'react-bootstrap/Spinner';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import Form from 'react-bootstrap/Form';
 import debounce from 'lodash.debounce';
 import { Book } from "../../book/Book";
 import './home.css'
-import { FormGroup } from "react-bootstrap";
+import { BookDetail } from "../../bookDetail/BookDetail";
+import { Page } from "../../pagination/Pagination";
 
 export const Home = () => {
 
@@ -24,11 +23,19 @@ export const Home = () => {
     '': 'Precio'
   }
 
+  const [bookSelected, setBookSelected] = useState(null)
   const [categories, setCategories] = useState([])
   const [searching, setSearching] = useState(false)
   const [books, setBooks] = useState([])
   const [advancedSearch, setAdvancedSearch] = useState(false)
   const [search, setSearch] = useState({search: '', price: '', page: 0, cat: ''})
+
+  const onSelectBook = (book) => {
+    if (book !== null) {
+      visitBook(book)
+    }
+    setBookSelected(book)
+  }
 
   const onPageChange = (page) => {
     const newPage = Math.max(0, search.page + page)
@@ -71,7 +78,7 @@ export const Home = () => {
     if (category === search.cat) {
       category = ''
     }
-    setSearch({search: search.search, price: search.price, page: search.page, cat: category})
+    setSearch({search: search.search, price: search.price, page: 0, cat: category})
   }
 
   const onSearchInput = (input) => {
@@ -121,6 +128,9 @@ export const Home = () => {
           }
         </div>
 
+        {bookSelected
+          ? <BookDetail book={bookSelected} onHide={() => onSelectBook(null)}/> : null
+        }
 
         {searching
           ? <Spinner animation="border" role="status" className={"loading"}>
@@ -131,22 +141,14 @@ export const Home = () => {
         {!searching && books.length > 0
           ?
           <div className={"results"}>
-            <Pagination className={"pagination"}>
-              <Pagination.Prev onClick={() => onPageChange(-1)}/>
-              <Pagination.Item>Página: {search.page + 1}</Pagination.Item>
-              <Pagination.Next onClick={() => onPageChange(1)}/>
-            </Pagination>
+            <Page currentPage={search.page} onPageChange={onPageChange}/>
             <div className="books-container">
               {
                 books.map(book => (
-                  <Book book={book}/>
+                  <Book book={book} selectBook={() => onSelectBook(book)}/>
                 ))
               }</div>
-            <Pagination className={"pagination"}>
-              <Pagination.Prev onClick={() => onPageChange(-1)}/>
-              <Pagination.Item> Página: {search.page + 1}</Pagination.Item>
-              <Pagination.Next onClick={() => onPageChange(1)}/>
-            </Pagination>
+            <Page currentPage={search.page} onPageChange={onPageChange}/>
           </div> : null
         }
 

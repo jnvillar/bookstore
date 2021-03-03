@@ -10,6 +10,8 @@ type Item struct {
 	Stock      int64      `json:"stock"`
 	CreatedAt  time.Time  `json:"createdAt"`
 	UpdatedAt  *time.Time `json:"updatedAt"`
+	Featured   bool       `json:"featured"`
+	Visits     int        `json:"visits"`
 }
 
 func (i *Item) GetID() string {

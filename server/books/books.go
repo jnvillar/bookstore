@@ -14,6 +14,7 @@ type Backend interface {
 	Update(book *Book) (*Book, error)
 	Create(book *Book) (*Book, error)
 	List(search *BookSearch) ([]*Book, error)
+	Visit(bookID string) error
 	GetCategories() ([]string, error)
 }
 
@@ -51,6 +52,10 @@ func (f *Factory) GetCategories() ([]string, error) {
 
 func (f *Factory) Get(bookID string) (*Book, error) {
 	return f.backend.Get(bookID)
+}
+
+func (f *Factory) Visit(bookID string) error {
+	return f.backend.Visit(bookID)
 }
 
 func (f *Factory) Update(newBook map[string]interface{}) (*Book, error) {

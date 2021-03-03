@@ -19,18 +19,11 @@
     justify-content: center;
 }
 
-
 .results {
     display: flex;
     flex-direction: column;
 }
 
-.pagination {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    justify-content: center;
-
-}
 .page-container {
     display: flex;
     justify-items: center;
