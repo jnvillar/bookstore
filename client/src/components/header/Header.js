@@ -16,7 +16,7 @@ export const Header = () => {
       <Navbar bg="dark" expand="lg" sticky="top">
         <Navbar.Brand className={"brand"} href="">La librería</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-        <Navbar.Collapse className="justify-content-end">
+        <Navbar.Collapse bg="light" className="justify-content-end">
           <Nav.Link className={"contact"} onClick={e => handleShowContact(true)}>Contacto</Nav.Link>
         </Navbar.Collapse>
       </Navbar>
